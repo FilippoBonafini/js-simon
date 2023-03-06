@@ -18,11 +18,37 @@ function myRandomNumbers(numeroDiValori, max, min, arrayDiDestinazione) {
     }
 }
 
+function myCreateElement(htmlElement, className1) {
 
+    // Inserisce dentro una var un elemento html e lo crea 
+    const element = document.createElement(htmlElement);
+
+    // aggiunge le varie classi 
+    element.classList.add(className1);
+
+    // aggiunge vari attributi fissi
+    const attribute = document.createAttribute('disabled');
+    const attribute2 = document.createAttribute('type');
+    const attribute3 = document.createAttribute('maxlength');
+
+    element.setAttributeNode(attribute);
+    element.setAttributeNode(attribute2);
+    element.setAttributeNode(attribute3);
+
+    attribute2.value = ('text')
+    attribute3.value = ('1')
+
+    // DA COME RISULTATO L'ELEMENTO HTML CON LE CLASSI AGGIUNTE PRIMA
+    return element;
+}
 
 // MAIN 
 // importo gli elementi html
-const numberContiner = document.getElementById('numberContainer');
+const numberCpuContiner = document.getElementById('numbersCPU');
+const numberUserContiner = document.getElementById('numbersUser');
+const conferm = document.getElementById('buttonConferm');
+const startButton = document.querySelector('.startButton')
+const timer = document.querySelector('.timer')
 const numbersCpu = [];
 const numbersPlayer = [];
 const numberOfNumbers = 5;
@@ -30,37 +56,71 @@ const numberOfNumbers = 5;
 
 // START PROGRAM 
 // genera un array di 5 numeri random 
-myRandomNumbers(numberOfNumbers, 99, 0, numbersCpu);
+myRandomNumbers(numberOfNumbers, 9, 0, numbersCpu);
 console.log(numbersCpu);
 
 // scrivo i numeri nell'html 
-numberContiner.innerHTML = (numbersCpu);
+for (let i = 0; i < numberOfNumbers; i++) {
+    const element = myCreateElement('div', 'numberCPU');
+    element.append(numbersCpu[i]);
+    numberCpuContiner.append(element);
+}
 
-// funzione che fa sparire i numeri dopo tot secondi
-setTimeout(function () {
-    numberContiner.innerHTML = '';
+// scrivo gli input nell'html 
+for (let i = 0; i < numberOfNumbers; i++) {
+    const element = myCreateElement('input', 'numberUser');
+    numberUserContiner.append(element);
+    numbersPlayer.push(element)
+}
 
-}, 2000)
+// funzione bottone start 
+startButton.addEventListener('click', function () {
+    
+    numberCpuContiner.classList.remove('hidden');
 
-// funzione che chiede 5 volte un numero all'utente e li mette in un array
-// alla fine confronta i numeri e da un risultato
-setTimeout(function () {
-
-    while (numbersPlayer.length != numbersCpu.length) {
-        const numberChosen = Number(prompt('Inserisci il numero ' + (numbersPlayer.length + 1)));
-        numbersPlayer.push(numberChosen);
-    }
-    console.log(numbersPlayer)
-
-    // Confronto i 2 array 
-    for (let i = 0; i < numberOfNumbers;i++){
-        if(numbersCpu[i]===numbersPlayer[i]){
-            console.log('numero '+(i + 1)+' indovinato');
+    // starta il timer 
+    let i=10
+    setInterval(function(){
+        if (i>0){
+        i-- 
+        timer.innerHTML=(i)
+           
         }else{
-            console.log('numero '+(i + 1)+' sbagliato');
+            timer.innerHTML=('Inserisci il numero')
         }
-    }
-}, 2100)
+    },1000)
+
+    // funzione che fa sparire i numeri dopo tot secondi
+    setTimeout(function () {
+        numberCpuContiner.classList.add('hidden');
+
+        const number = document.querySelectorAll('.numberUser ')
+        for (let i = 0; i < numberOfNumbers; i++) {
+            number[i].removeAttribute('disabled')
+        }
+    }, 11000)
+
+    // bottone di conferma
+    conferm.addEventListener('click', function () {
+
+        for (let i = 0; i < numberOfNumbers; i++) {
+            numbersPlayer[i].classList.remove('ok')
+            numbersPlayer[i].classList.remove('wrong')
+            if (Number(numbersPlayer[i].value) === numbersCpu[i]) {
+                console.log('numero ' + numbersPlayer[i].value + ' ok')
+                numbersPlayer[i].classList.add('ok')
+            } else {
+                console.log('numero ' + numbersPlayer[i].value + ' non ok')
+                numbersPlayer[i].classList.add('wrong')
+
+            }
+            const attribute = document.createAttribute('disabled');
+            numbersPlayer[i].setAttributeNode(attribute);
+        }
+    })
+
+})
+
 
 
 
