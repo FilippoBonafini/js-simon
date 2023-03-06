@@ -28,7 +28,6 @@ const numbersPlayer = [];
 const numberOfNumbers = 5;
 
 
-
 // START PROGRAM 
 // genera un array di 5 numeri random 
 myRandomNumbers(numberOfNumbers, 99, 0, numbersCpu);
@@ -53,7 +52,7 @@ setTimeout(function () {
     }
     console.log(numbersPlayer)
 
-    // Funzione che confronta i 2 array 
+    // Confronto i 2 array 
     for (let i = 0; i < numberOfNumbers;i++){
         if(numbersCpu[i]===numbersPlayer[i]){
             console.log('numero '+(i + 1)+' indovinato');
