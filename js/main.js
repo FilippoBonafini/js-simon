@@ -80,15 +80,18 @@ startButton.addEventListener('click', function () {
 
     // starta il timer 
     let i=10
-    setInterval(function(){
+    const tempo = setInterval(function(){
         if (i>0){
         i-- 
         timer.innerHTML=(i)
            
         }else{
             timer.innerHTML=('Inserisci il numero')
+            clearInterval(tempo)
         }
     },1000)
+
+    
 
     // funzione che fa sparire i numeri dopo tot secondi
     setTimeout(function () {
